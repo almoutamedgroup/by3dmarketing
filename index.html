@@ -1,0 +1,1038 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>إليغانت ديكور | أثاث منزلي فاخر</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        /* CSS Variables */
+        :root {
+            --green-primary: #00FF88;
+            --green-secondary: #80FFC2;
+            --green-accent: #CCFFE6;
+            --green-dark: #00CC6A;
+            --dark-bg: #1a1a1a;
+            --light-text: #FFFFFF;
+            --dark-text: #2C2C2C;
+            --glass-bg: rgba(255, 255, 255, 0.1);
+            --glass-border: rgba(255, 255, 255, 0.2);
+            --shadow-glow: 0 0 20px rgba(0, 255, 136, 0.4);
+            --transition: all 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+        }
+
+        /* Global Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background: 
+                /* Realistic dark wood texture - UPDATED AGAIN */
+                url('https://images.unsplash.com/photo-1549490197-e85df649f4b3?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover fixed,
+                /* Dark overlay */
+                linear-gradient(rgba(20, 20, 20, 0.85), rgba(10, 10, 10, 0.9));
+            color: var(--light-text);
+            min-height: 100vh;
+            overflow-x: hidden;
+        }
+
+        /* Glowing Particles */
+        .glow-particle {
+            position: fixed;
+            background: radial-gradient(circle, var(--green-primary), transparent);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.3;
+            animation: floatParticle 20s infinite linear;
+        }
+
+        /* Intro Styles */
+        #intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: 
+                /* Realistic dark wood texture - UPDATED AGAIN */
+                url('https://images.unsplash.com/photo-1549490197-e85df649f4b3?q=80&w=1935&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D') center/cover fixed,
+                /* Dark overlay */
+                linear-gradient(rgba(20, 20, 20, 0.9), rgba(10, 10, 10, 0.95));
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            z-index: 1000;
+            transition: opacity 0.8s ease, visibility 0.8s ease;
+        }
+
+        .logo-container {
+            position: relative;
+            width: 220px;
+            height: 220px;
+            margin-bottom: 50px;
+        }
+
+        .logo-frame {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, var(--green-primary), var(--green-secondary), var(--green-accent), var(--green-primary));
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            animation: rotate 3s linear infinite, glowPulse 2s ease-in-out infinite alternate;
+            box-shadow: 0 0 40px var(--green-primary), 0 0 80px rgba(0, 255, 136, 0.5);
+            position: relative;
+        }
+
+        .logo-frame::before {
+            content: '';
+            position: absolute;
+            width: calc(100% - 8px);
+            height: calc(100% - 8px);
+            background: var(--dark-bg);
+            border-radius: 50%;
+            z-index: 1;
+        }
+
+        .logo {
+            width: 75%;
+            height: 75%;
+            border-radius: 50%;
+            background: url('https://archive.org/download/mo3tamed/mo3tamed.png') center/cover no-repeat;
+            z-index: 2;
+            position: relative;
+        }
+
+        .loading-container {
+            width: 400px;
+            text-align: center;
+        }
+
+        .loading-bar {
+            width: 100%;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            overflow: hidden;
+            margin-bottom: 20px;
+            box-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+
+        .loading-progress {
+            height: 100%;
+            width: 0%;
+            background: linear-gradient(90deg, var(--green-primary), var(--green-accent));
+            border-radius: 10px;
+            animation: loading 3s ease-in-out forwards;
+            box-shadow: 0 0 10px var(--green-primary);
+        }
+
+        .loading-text {
+            font-size: 1.2rem;
+            color: var(--green-accent);
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.5);
+        }
+
+        .emoji-container {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+        }
+
+        .emoji {
+            position: absolute;
+            font-size: 28px;
+            opacity: 0;
+            filter: drop-shadow(0 0 5px var(--green-primary));
+            animation: emojiPop 1.5s ease-out forwards;
+        }
+
+        /* Main App Styles */
+        #app {
+            display: none;
+            opacity: 0;
+            transition: opacity 0.8s ease;
+            min-height: 100vh;
+        }
+
+        /* Header Styles */
+        .main-header {
+            padding: 25px 40px;
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(15px);
+            border-bottom: 1px solid var(--glass-border);
+            box-shadow: 0 5px 30px rgba(0, 0, 0, 0.5);
+            position: relative;
+            z-index: 100;
+        }
+
+        .header-content {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 20px;
+        }
+
+        .logo-small {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            background: url('https://archive.org/download/mo3tamed/mo3tamed.png') center/cover no-repeat;
+            border: 2px solid var(--green-primary);
+            box-shadow: var(--shadow-glow);
+        }
+
+        .brand-text h1 {
+            font-size: 2.2rem;
+            background: linear-gradient(to right, var(--green-primary), var(--green-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 15px rgba(0, 255, 136, 0.5);
+            margin-bottom: 5px;
+        }
+
+        .brand-text .tagline {
+            font-size: 1.1rem;
+            color: var(--green-accent);
+            opacity: 0.9;
+        }
+
+        /* Navigation */
+        .main-nav {
+            display: flex;
+            gap: 10px;
+        }
+
+        .nav-btn {
+            padding: 14px 28px;
+            background: var(--glass-bg);
+            border: 1px solid var(--glass-border);
+            border-radius: 50px;
+            color: var(--light-text);
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: var(--transition);
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .nav-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(0, 255, 136, 0.2), transparent);
+            transition: left 0.6s;
+        }
+
+        .nav-btn:hover::before {
+            left: 100%;
+        }
+
+        .nav-btn.active, .nav-btn:hover {
+            background: rgba(0, 255, 136, 0.15);
+            border-color: var(--green-primary);
+            box-shadow: var(--shadow-glow);
+            transform: translateY(-3px);
+        }
+
+        /* Main Content */
+        .main-content {
+            padding: 40px;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .page {
+            display: none;
+            animation: fadeInUp 0.6s ease;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .page-header {
+            text-align: center;
+            margin-bottom: 50px;
+        }
+
+        .page-title {
+            font-size: 2.8rem;
+            background: linear-gradient(to right, var(--green-primary), var(--green-accent));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 0 20px rgba(0, 255, 136, 0.4);
+            margin-bottom: 15px;
+            position: relative;
+            display: inline-block;
+        }
+
+        .page-title::after {
+            content: '';
+            position: absolute;
+            bottom: -10px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 150px;
+            height: 3px;
+            background: linear-gradient(to right, var(--green-primary), var(--green-accent));
+            border-radius: 3px;
+            box-shadow: 0 0 10px var(--green-primary);
+        }
+
+        /* Instagram Content Containers */
+        .instagram-container {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        /* Instagram Post (1:1 Aspect Ratio) */
+        .instagram-post {
+            width: 400px;
+            height: 400px;
+            background: var(--glass-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: var(--transition);
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            position: relative;
+        }
+
+        .instagram-post:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), var(--shadow-glow);
+            border-color: var(--green-primary);
+        }
+
+        .post-image {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: var(--transition);
+        }
+
+        .instagram-post:hover .post-image {
+            transform: scale(1.1);
+        }
+
+        .post-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 25px;
+            transform: translateY(100%);
+            transition: var(--transition);
+        }
+
+        .instagram-post:hover .post-overlay {
+            transform: translateY(0);
+        }
+
+        .post-title {
+            font-size: 1.4rem;
+            margin-bottom: 10px;
+            color: var(--green-accent);
+        }
+
+        .post-description {
+            font-size: 1rem;
+            opacity: 0.9;
+            line-height: 1.5;
+        }
+
+        /* Instagram Story (9:16 Aspect Ratio) */
+        .instagram-story {
+            width: 225px;
+            height: 400px;
+            background: var(--glass-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: var(--transition);
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            position: relative;
+        }
+
+        .instagram-story:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), var(--shadow-glow);
+            border-color: var(--green-primary);
+        }
+
+        .story-image {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: var(--transition);
+        }
+
+        .instagram-story:hover .story-image {
+            transform: scale(1.1);
+        }
+
+        .story-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 20px;
+            transform: translateY(100%);
+            transition: var(--transition);
+        }
+
+        .instagram-story:hover .story-overlay {
+            transform: translateY(0);
+        }
+
+        .story-title {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--green-accent);
+        }
+
+        .story-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        /* Instagram Reel (9:16 Aspect Ratio) */
+        .instagram-reel {
+            width: 225px;
+            height: 400px;
+            background: var(--glass-bg);
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.4);
+            transition: var(--transition);
+            cursor: pointer;
+            backdrop-filter: blur(10px);
+            border: 1px solid var(--glass-border);
+            position: relative;
+        }
+
+        .instagram-reel:hover {
+            transform: translateY(-15px) scale(1.02);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.6), var(--shadow-glow);
+            border-color: var(--green-primary);
+        }
+
+        .reel-image {
+            width: 100%;
+            height: 100%;
+            background-size: cover;
+            background-position: center;
+            transition: var(--transition);
+        }
+
+        .instagram-reel:hover .reel-image {
+            transform: scale(1.1);
+        }
+
+        .reel-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 20px;
+            transform: translateY(100%);
+            transition: var(--transition);
+        }
+
+        .instagram-reel:hover .reel-overlay {
+            transform: translateY(0);
+        }
+
+        .reel-title {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--green-accent);
+        }
+
+        .reel-description {
+            font-size: 0.9rem;
+            opacity: 0.9;
+            line-height: 1.4;
+        }
+
+        /* Video Play Icon for Reels */
+        .video-play {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 70px;
+            height: 70px;
+            background: rgba(0, 255, 136, 0.8);
+            border-radius: 50%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: var(--transition);
+        }
+
+        /* MODIFIED: Combined hover rule for reel and story */
+        .instagram-reel:hover .video-play,
+        .instagram-story:hover .video-play {
+            opacity: 1;
+        }
+
+        .video-play i {
+            color: var(--dark-bg);
+            font-size: 30px;
+            margin-left: 5px;
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.9);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            opacity: 0;
+            transition: opacity 0.4s ease;
+            backdrop-filter: blur(10px);
+        }
+
+        .modal.active {
+            display: flex;
+            opacity: 1;
+        }
+
+        .modal-content {
+            max-width: 90%;
+            max-height: 90%;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.3);
+            position: relative;
+            background: var(--dark-bg);
+            border: 2px solid var(--green-primary);
+        }
+
+        .modal-media {
+            width: 100%;
+            height: auto;
+            display: block;
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 20px;
+            right: 20px;
+            background: rgba(0, 0, 0, 0.7);
+            color: var(--green-primary);
+            border: none;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            font-size: 1.8rem;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            transition: var(--transition);
+            z-index: 10;
+        }
+
+        .modal-close:hover {
+            background: rgba(0, 255, 136, 0.2);
+            transform: rotate(90deg);
+        }
+
+        /* Footer */
+        .main-footer {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding: 20px 40px;
+            margin-top: 50px;
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(10px);
+            border-top: 1px solid var(--glass-border);
+        }
+
+        .footer-text {
+            color: var(--green-accent);
+            font-size: 1rem;
+            text-shadow: 0 0 10px rgba(0, 255, 136, 0.3);
+        }
+        
+        /* Icon Bar inside Footer */
+        .icon-bar {
+            display: flex;
+            gap: 15px;
+        }
+
+        .social-icon {
+            width: 45px; /* Slightly smaller for footer */
+            height: 45px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-decoration: none;
+            color: var(--light-text);
+            font-size: 1.3rem; /* Adjusted font size */
+            transition: var(--transition);
+            border: 1px solid transparent;
+        }
+
+        .social-icon:hover {
+            background: rgba(0, 255, 136, 0.15);
+            color: var(--green-primary);
+            transform: translateY(-5px);
+            box-shadow: var(--shadow-glow);
+            border-color: var(--green-primary);
+        }
+
+
+        /* Animations */
+        @keyframes rotate {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+
+        @keyframes glowPulse {
+            0% { box-shadow: 0 0 40px var(--green-primary), 0 0 80px rgba(0, 255, 136, 0.5); }
+            100% { box-shadow: 0 0 60px var(--green-primary), 0 0 120px rgba(0, 255, 136, 0.8); }
+        }
+
+        @keyframes loading {
+            0% { width: 0%; }
+            100% { width: 100%; }
+        }
+
+        @keyframes emojiPop {
+            0% { 
+                transform: scale(0) rotate(0deg); 
+                opacity: 0;
+            }
+            50% { 
+                opacity: 1;
+            }
+            100% { 
+                transform: scale(1) rotate(360deg); 
+                opacity: 0;
+            }
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes floatParticle {
+            0% {
+                transform: translateY(100vh) rotate(0deg);
+                opacity: 0;
+            }
+            10% {
+                opacity: 0.5;
+            }
+            90% {
+                opacity: 0.5;
+            }
+            100% {
+                transform: translateY(-100px) rotate(360deg);
+                opacity: 0;
+            }
+        }
+
+        /* Responsive Styles */
+        @media (max-width: 1200px) {
+            .instagram-post {
+                width: 350px;
+                height: 350px;
+            }
+            
+            .instagram-story, .instagram-reel {
+                width: 200px;
+                height: 355px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .header-content {
+                flex-direction: column;
+                gap: 20px;
+            }
+            
+            .instagram-post {
+                width: 300px;
+                height: 300px;
+            }
+            
+            .instagram-story, .instagram-reel {
+                width: 170px;
+                height: 302px;
+            }
+            
+            .main-nav {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .page-title {
+                font-size: 2.2rem;
+            }
+
+            .main-footer {
+                flex-direction: column;
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div id="particles-container"></div>
+
+    <div id="intro">
+        <div class="logo-container">
+            <div class="logo-frame">
+                <div class="logo"></div>
+            </div>
+            <div class="emoji-container" id="emojiContainer"></div>
+        </div>
+        <div class="loading-container">
+            <div class="loading-bar">
+                <div class="loading-progress"></div>
+            </div>
+            <div class="loading-text">جاري تحميل عالم الأناقة ...</div>
+        </div>
+    </div>
+
+    <div id="app">
+        <header class="main-header">
+            <div class="header-content">
+                <div class="brand">
+                    <div class="logo-small"></div>
+                    <div class="brand-text">
+                        <h1>مجموعة المُعتمد</h1>
+                        <p class="tagline">للمساحات التي تستحق الأفضل</p>
+                    </div>
+                </div>
+                <nav class="main-nav">
+                    <button class="nav-btn active" data-page="posts">منشورات</button>
+                    <button class="nav-btn" data-page="stories">قصص</button>
+                    <button class="nav-btn" data-page="reels">ريلز</button>
+                </nav>
+            </div>
+        </header>
+
+        <main class="main-content">
+            <div class="page active" id="posts">
+                <div class="page-header">
+                    <h2 class="page-title">منشورات انستجرام</h2>
+                </div>
+                <div class="instagram-container">
+                    <div class="instagram-post" data-media="https://archive.org/download/5_20251013_20251013/%D9%85%D8%AC%D9%85%D9%88%D8%B9%D8%A9%20%285%29.png" data-type="image">
+                        <div class="post-image" style="background-image: url('https://archive.org/download/5_20251013_20251013/%D9%85%D8%AC%D9%85%D9%88%D8%B9%D8%A9%20%285%29.png')"></div>
+                        <div class="post-overlay">
+                            <h3 class="post-title">غرفة معيشة أنيقة</h3>
+                            <p class="post-description">تصميم عصري لغرفة المعيشة مع لمسات دافئة تخلق جوًا مريحًا للعائلة.</p>
+                        </div>
+                    </div>
+                    <div class="instagram-post" data-media="https://archive.org/download/6_20251013_202510/%D9%85%D8%AC%D9%85%D9%88%D8%B9%D8%A9%20%286%29.png" data-type="image">
+                        <div class="post-image" style="background-image: url('https://archive.org/download/6_20251013_202510/%D9%85%D8%AC%D9%85%D9%88%D8%B9%D8%A9%20%286%29.png')"></div>
+                        <div class="post-overlay">
+                            <h3 class="post-title">مطبخ عصري</h3>
+                            <p class="post-description">مطبخ عملي وأنيق مع مساحات تخزين ذكية وألوان هادئة.</p>
+                        </div>
+                    </div>
+                    <div class="instagram-post" data-media="https://archive.org/download/3_20251013_20251013_1452/%D9%85%D8%AC%D9%85%D9%88%D8%B9%D8%A9%20%283%29.png" data-type="image">
+                        <div class="post-image" style="background-image: url('https://archive.org/download/3_20251013_20251013_1452/%D9%85%D8%AC%D9%85%D9%88%D8%B9%D8%A9%20%283%29.png')"></div>
+                        <div class="post-overlay">
+                            <h3 class="post-title">غرفة نوم مريحة</h3>
+                            <p class="post-description">تصميم هادئ لغرفة النوم مع ألوان ناعمة وإضاءة محسوبة للراحة والاسترخاء.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="stories">
+                <div class="page-header">
+                    <h2 class="page-title">قصص انستجرام</h2>
+                </div>
+                <div class="instagram-container">
+                    <div class="instagram-story" data-media="https://archive.org/download/copy_3B8A1AA3-9004-4E78-8485-DAFCE6420D82/copy_3B8A1AA3-9004-4E78-8485-DAFCE6420D82.mp4" data-type="video">
+                        <div class="story-image" style="background-image: url('https://images.unsplash.com/photo-1617814102913-faf79b22d046?q=80&w=800&auto=format&fit=crop')"></div>
+                        <div class="story-overlay">
+                            <h3 class="story-title">جلسات خارجية فاخرة</h3>
+                            <p class="story-description">تصاميمنا للجلسات الخارجية تجمع بين الفخامة والراحة، لتخلق مساحة مثالية للاسترخاء.</p>
+                        </div>
+                        <div class="video-play">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="instagram-story" data-media="https://assets.mixkit.co/videos/preview/mixkit-a-painter-is-mixing-colors-on-a-palette-4384-large.mp4" data-type="video">
+                        <div class="story-image" style="background-image: url('https://images.unsplash.com/photo-1558926227-023105652b39?q=80&w=800&auto=format&fit=crop')"></div>
+                        <div class="story-overlay">
+                            <h3 class="story-title">نصائح لاختيار الألوان</h3>
+                            <p class="story-description">كيف تختار ألوان ديكور منزلك لتتناسب مع شخصيتك واحتياجاتك.</p>
+                        </div>
+                        <div class="video-play">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="instagram-story" data-media="https://assets.mixkit.co/videos/preview/mixkit-a-bright-and-modern-room-in-a-condominium-4361-large.mp4" data-type="video">
+                        <div class="story-image" style="background-image: url('https://images.unsplash.com/photo-1618220179428-22790b461013?q=80&w=800&auto=format&fit=crop')"></div>
+                        <div class="story-overlay">
+                            <h3 class="story-title">أحدث صيحات الديكور</h3>
+                            <p class="story-description">اكتشف أحدث اتجاهات الديكور لهذا الموسم.</p>
+                        </div>
+                        <div class="video-play">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="page" id="reels">
+                <div class="page-header">
+                    <h2 class="page-title">ريلز انستجرام</h2>
+                </div>
+                <div class="instagram-container">
+                    <div class="instagram-reel" data-media="https://assets.mixkit.co/videos/preview/mixkit-interior-of-a-modern-living-room-44675-large.mp4" data-type="video">
+                        <div class="reel-image" style="background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80')"></div>
+                        <div class="reel-overlay">
+                            <h3 class="reel-title">جولة في منزل عصري</h3>
+                            <p class="reel-description">جولة مصورة في منزل عصري بتصميم مذهل يجمع بين الأناقة والراحة.</p>
+                        </div>
+                        <div class="video-play">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="instagram-reel" data-media="https://assets.mixkit.co/videos/preview/mixkit-white-desk-with-a-modern-lamp-and-a-vase-44676-large.mp4" data-type="video">
+                        <div class="reel-image" style="background-image: url('https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80')"></div>
+                        <div class="reel-overlay">
+                            <h3 class="reel-title">نصائح ترتيب المنزل</h3>
+                            <p class="reel-description">تعلم كيفية ترتيب منزلك بطرق مبتكرة تضفي جمالاً وترتيباً.</p>
+                        </div>
+                        <div class="video-play">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                    <div class="instagram-reel" data-media="https://assets.mixkit.co/videos/preview/mixkit-pillows-on-a-sofa-in-a-living-room-44677-large.mp4" data-type="video">
+                        <div class="reel-image" style="background-image: url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80')"></div>
+                        <div class="reel-overlay">
+                            <h3 class="reel-title">تغيير ديكور بسيط</h3>
+                            <p class="reel-description">كيف يمكنك تغيير ديكور منزلك بتغييرات بسيطة لكنها مؤثرة.</p>
+                        </div>
+                        <div class="video-play">
+                            <i class="fas fa-play"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+        
+        <footer class="main-footer">
+            <p class="footer-text">3D Marketing © 2025 All Rights Reserved</p>
+            
+            <div class="icon-bar">
+                <a href="https://www.instagram.com/almoutamed.group/" target="_blank" class="social-icon" aria-label="Instagram">
+                    <i class="fab fa-instagram"></i>
+                </a>
+                <a href="https://www.facebook.com/251627254699165?ref=_xav_ig_profile_page_web" target="_blank" class="social-icon" aria-label="Facebook">
+                    <i class="fab fa-facebook-f"></i>
+                </a>
+                <a href="https://maps.app.goo.gl/j4qjy7dy8zDw3kue8" target="_blank" class="social-icon" aria-label="Google Maps">
+                    <i class="fas fa-map-marker-alt"></i>
+                </a>
+                <a href="https://wa.link/ijcskn" target="_blank" class="social-icon" aria-label="WhatsApp">
+                    <i class="fab fa-whatsapp"></i>
+                </a>
+                <a href="tel:+962777143143" class="social-icon" aria-label="Call Us">
+                    <i class="fas fa-phone"></i>
+                </a>
+            </div>
+        </footer>
+    </div>
+
+    <div class="modal" id="modal">
+        <div class="modal-content">
+            <button class="modal-close" id="modalClose">×</button>
+            <img id="modalImage" class="modal-media" src="" alt="">
+            <video id="modalVideo" class="modal-media" controls style="display: none;"></video>
+        </div>
+    </div>
+
+    <script>
+        // Create glowing particles
+        function createParticles() {
+            const particlesContainer = document.getElementById('particles-container');
+            const particleCount = 30;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.className = 'glow-particle';
+                
+                // Random size between 5px and 15px
+                const size = Math.random() * 10 + 5;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                particle.style.left = `${Math.random() * 100}vw`;
+                
+                // Random animation duration and delay
+                const duration = Math.random() * 20 + 10;
+                const delay = Math.random() * 5;
+                particle.style.animationDuration = `${duration}s`;
+                particle.style.animationDelay = `${delay}s`;
+                
+                particlesContainer.appendChild(particle);
+            }
+        }
+        
+        // Intro Animation
+        document.addEventListener('DOMContentLoaded', function() {
+            createParticles();
+            
+            const intro = document.getElementById('intro');
+            const app = document.getElementById('app');
+            const emojiContainer = document.getElementById('emojiContainer');
+            const emojis = ['🛋️', '🪑', '🛏️', '💡', '🪴', '🖼️', '🚪', '🪟', '🪞', '🧸'];
+            
+            // Create emojis after rotation
+            setTimeout(() => {
+                for (let i = 0; i < 25; i++) {
+                    const emoji = document.createElement('div');
+                    emoji.className = 'emoji';
+                    emoji.textContent = emojis[Math.floor(Math.random() * emojis.length)];
+                    
+                    // Random position
+                    const angle = Math.random() * Math.PI * 2;
+                    const distance = 180 + Math.random() * 120;
+                    const x = Math.cos(angle) * distance;
+                    const y = Math.sin(angle) * distance;
+                    
+                    emoji.style.left = `calc(50% + ${x}px)`;
+                    emoji.style.top = `calc(50% + ${y}px)`;
+                    emoji.style.animationDelay = `${Math.random() * 0.5}s`;
+                    
+                    emojiContainer.appendChild(emoji);
+                }
+            }, 2500);
+            
+            // Hide intro and show app
+            setTimeout(() => {
+                intro.style.opacity = '0';
+                intro.style.visibility = 'hidden';
+                
+                app.style.display = 'block';
+                setTimeout(() => {
+                    app.style.opacity = '1';
+                }, 100);
+            }, 3500);
+        });
+
+        // Navigation
+        const navButtons = document.querySelectorAll('.nav-btn');
+        const pages = document.querySelectorAll('.page');
+        
+        navButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                // Remove active class from all buttons and pages
+                navButtons.forEach(btn => btn.classList.remove('active'));
+                pages.forEach(page => page.classList.remove('active'));
+                
+                // Add active class to clicked button and corresponding page
+                button.classList.add('active');
+                const pageId = button.getAttribute('data-page');
+                document.getElementById(pageId).classList.add('active');
+            });
+        });
+
+        // Modal functionality
+        const modal = document.getElementById('modal');
+        const modalImage = document.getElementById('modalImage');
+        const modalVideo = document.getElementById('modalVideo');
+        const modalClose = document.getElementById('modalClose');
+        const instagramItems = document.querySelectorAll('.instagram-post, .instagram-story, .instagram-reel');
+        
+        instagramItems.forEach(item => {
+            item.addEventListener('click', () => {
+                const mediaSrc = item.getAttribute('data-media');
+                const mediaType = item.getAttribute('data-type');
+                
+                if (mediaType === 'image') {
+                    modalImage.src = mediaSrc;
+                    modalImage.style.display = 'block';
+                    modalVideo.style.display = 'none';
+                    modalVideo.src = ''; // Stop video from playing in background
+                } else if (mediaType === 'video') {
+                    modalVideo.src = mediaSrc;
+                    modalVideo.style.display = 'block';
+                    modalImage.style.display = 'none';
+                    modalImage.src = '';
+                }
+                
+                modal.classList.add('active');
+            });
+        });
+        
+        function closeModal() {
+            modal.classList.remove('active');
+            modalVideo.pause();
+            modalVideo.src = '';
+            modalImage.src = '';
+        }
+
+        modalClose.addEventListener('click', closeModal);
+        
+        modal.addEventListener('click', (e) => {
+            if (e.target === modal) {
+                closeModal();
+            }
+        });
+    </script>
+</body>
+</html>
