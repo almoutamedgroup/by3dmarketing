@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>إليغانت ديكور | أثاث منزلي فاخر</title>
+    <title>شركة المُعتمد للديكور</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         /* CSS Variables */
@@ -371,10 +371,10 @@
             line-height: 1.5;
         }
 
-        /* Instagram Story (9:16 Aspect Ratio) */
+        /* Instagram Story (9:16 Aspect Ratio) - UPDATED */
         .instagram-story {
-            width: 225px;
-            height: 400px;
+            width: 270px; /* مقاس ستوري حقيقي */
+            height: 480px; /* مقاس ستوري حقيقي */
             background: var(--glass-bg);
             border-radius: 20px;
             overflow: hidden;
@@ -431,10 +431,10 @@
             line-height: 1.4;
         }
 
-        /* Instagram Reel (9:16 Aspect Ratio) */
+        /* Instagram Reel (9:16 Aspect Ratio) - UPDATED */
         .instagram-reel {
-            width: 225px;
-            height: 400px;
+            width: 270px; /* مقاس ريلز حقيقي */
+            height: 480px; /* مقاس ريلز حقيقي */
             background: var(--glass-bg);
             border-radius: 20px;
             overflow: hidden;
@@ -520,7 +520,7 @@
             margin-left: 5px;
         }
 
-        /* Modal Styles */
+        /* Modal Styles - IMPROVED */
         .modal {
             display: none;
             position: fixed;
@@ -528,13 +528,13 @@
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.9);
+            background: rgba(0, 0, 0, 0.95);
             z-index: 2000;
             justify-content: center;
             align-items: center;
             opacity: 0;
             transition: opacity 0.4s ease;
-            backdrop-filter: blur(10px);
+            backdrop-filter: blur(15px);
         }
 
         .modal.active {
@@ -547,16 +547,131 @@
             max-height: 90%;
             border-radius: 20px;
             overflow: hidden;
-            box-shadow: 0 0 50px rgba(0, 255, 136, 0.3);
+            box-shadow: 0 0 50px rgba(0, 255, 136, 0.5);
             position: relative;
             background: var(--dark-bg);
             border: 2px solid var(--green-primary);
+            display: flex;
+            flex-direction: column;
+        }
+
+        /* تحديد مقاس الفيديو بناءً على نوع المحتوى */
+        .modal-content.video-story,
+        .modal-content.video-reel {
+            width: 360px; /* مقاس 9:16 للقصص والريلز */
+            height: 640px;
+        }
+
+        .modal-content.video-post {
+            width: 600px; /* مقاس مختلف للمنشورات */
+            height: 600px;
+        }
+
+        .modal-media-container {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            background: #000;
         }
 
         .modal-media {
             width: 100%;
-            height: auto;
+            height: 100%;
+            object-fit: contain;
             display: block;
+        }
+
+        /* Improved Video Controls */
+        .video-controls {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background: linear-gradient(transparent, rgba(0, 0, 0, 0.8));
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 10;
+        }
+
+        .modal-content:hover .video-controls {
+            opacity: 1;
+        }
+
+        .control-btn {
+            background: transparent;
+            border: none;
+            color: var(--light-text);
+            font-size: 1.2rem;
+            cursor: pointer;
+            transition: var(--transition);
+            width: 40px;
+            height: 40px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            border-radius: 50%;
+        }
+
+        .control-btn:hover {
+            background: rgba(0, 255, 136, 0.2);
+            color: var(--green-primary);
+            transform: scale(1.1);
+        }
+
+        .progress-container {
+            flex: 1;
+            height: 6px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 3px;
+            overflow: hidden;
+            cursor: pointer;
+            position: relative;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background: linear-gradient(to right, var(--green-primary), var(--green-accent));
+            border-radius: 3px;
+            width: 0%;
+            transition: width 0.1s linear;
+        }
+
+        .time-display {
+            color: var(--light-text);
+            font-size: 0.9rem;
+            min-width: 100px;
+            text-align: center;
+        }
+
+        .volume-container {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .volume-slider {
+            width: 80px;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 2px;
+            outline: none;
+            -webkit-appearance: none;
+        }
+
+        .volume-slider::-webkit-slider-thumb {
+            -webkit-appearance: none;
+            width: 14px;
+            height: 14px;
+            border-radius: 50%;
+            background: var(--green-primary);
+            cursor: pointer;
+            box-shadow: 0 0 5px rgba(0, 255, 136, 0.5);
         }
 
         .modal-close {
@@ -581,6 +696,22 @@
         .modal-close:hover {
             background: rgba(0, 255, 136, 0.2);
             transform: rotate(90deg);
+        }
+
+        /* Loading Spinner for Videos */
+        .video-loading {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 60px;
+            height: 60px;
+            border: 4px solid rgba(255, 255, 255, 0.3);
+            border-top: 4px solid var(--green-primary);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            z-index: 5;
+            display: none;
         }
 
         /* Footer */
@@ -685,6 +816,11 @@
             }
         }
 
+        @keyframes spin {
+            0% { transform: translate(-50%, -50%) rotate(0deg); }
+            100% { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
         /* Responsive Styles */
         @media (max-width: 1200px) {
             .instagram-post {
@@ -693,8 +829,19 @@
             }
             
             .instagram-story, .instagram-reel {
-                width: 200px;
-                height: 355px;
+                width: 240px;
+                height: 427px;
+            }
+            
+            .modal-content.video-story,
+            .modal-content.video-reel {
+                width: 300px;
+                height: 533px;
+            }
+            
+            .modal-content.video-post {
+                width: 500px;
+                height: 500px;
             }
         }
 
@@ -710,8 +857,19 @@
             }
             
             .instagram-story, .instagram-reel {
-                width: 170px;
-                height: 302px;
+                width: 200px;
+                height: 355px;
+            }
+            
+            .modal-content.video-story,
+            .modal-content.video-reel {
+                width: 270px;
+                height: 480px;
+            }
+            
+            .modal-content.video-post {
+                width: 350px;
+                height: 350px;
             }
             
             .main-nav {
@@ -726,6 +884,25 @@
             .main-footer {
                 flex-direction: column;
                 justify-content: center;
+            }
+            
+            .video-controls {
+                padding: 15px;
+            }
+            
+            .control-btn {
+                width: 35px;
+                height: 35px;
+                font-size: 1rem;
+            }
+            
+            .time-display {
+                min-width: 80px;
+                font-size: 0.8rem;
+            }
+            
+            .volume-slider {
+                width: 60px;
             }
         }
     </style>
@@ -801,8 +978,8 @@
                     <h2 class="page-title">قصص انستجرام</h2>
                 </div>
                 <div class="instagram-container">
-                    <div class="instagram-story" data-media="https://archive.org/download/copy_3B8A1AA3-9004-4E78-8485-DAFCE6420D82/copy_3B8A1AA3-9004-4E78-8485-DAFCE6420D82.mp4" data-type="video">
-                        <div class="story-image" style="background-image: url('https://images.unsplash.com/photo-1617814102913-faf79b22d046?q=80&w=800&auto=format&fit=crop')"></div>
+                    <div class="instagram-story" data-media="https://pouch.jumpshare.com/preview/5KQHadzRGsizLU3tWoqPIrrK0xpkRK9SAhGNw6y5cQfGQu8sGZ9XrKisYP6kyQT8_vWCbFtgcmgVReoivi2IbfmcE7MfRApfEQ2pAEbK4moss4eeJR8BpdpcAZAyA8JTrbP2VdvtoQnsFUmTO0OJEm6yjbN-I2pg_cnoHs_AmgI.mp4" data-type="video" data-content-type="story">
+                        <div class="story-image" style="background-image: url('https://pouch.jumpshare.com/preview/b23HFyWMFH6Lp8DUbseG28hmJe0pkRW-RrK-7rQAQxut5BNZM-rT7fGQWqDDF6WmtNyTE8KnedK_IYOdqRFPO9DmtPdDH5x86F4obXzSwjQ')"></div>
                         <div class="story-overlay">
                             <h3 class="story-title">جلسات خارجية فاخرة</h3>
                             <p class="story-description">تصاميمنا للجلسات الخارجية تجمع بين الفخامة والراحة، لتخلق مساحة مثالية للاسترخاء.</p>
@@ -811,8 +988,8 @@
                             <i class="fas fa-play"></i>
                         </div>
                     </div>
-                    <div class="instagram-story" data-media="https://assets.mixkit.co/videos/preview/mixkit-a-painter-is-mixing-colors-on-a-palette-4384-large.mp4" data-type="video">
-                        <div class="story-image" style="background-image: url('https://images.unsplash.com/photo-1558926227-023105652b39?q=80&w=800&auto=format&fit=crop')"></div>
+                    <div class="instagram-story" data-media="https://pouch.jumpshare.com/preview/LwILAldku2Pk3awmHNPNt2xX1NeJnsGV2Kg4II0DIrjRqYWEbBHyYaVK1xy7jVd1s-THqvpoXxJWa_VryBnnbKfp1s-W6hogO-KhSevBvDgBN97iZPssYQsgPsK9qWm9rbP2VdvtoQnsFUmTO0OJEm6yjbN-I2pg_cnoHs_AmgI.mp4" data-type="video" data-content-type="story">
+                        <div class="story-image" style="background-image: url('https://pouch.jumpshare.com/preview/ISlP9AdRM8dI3I3R2hAof_WAXCuQkZ4rmf8ZldBtfLiaeKk64puI1uIP2R2tiVGntNyTE8KnedK_IYOdqRFPOy-WEq3ciV8otR2_Wf3ChAA')"></div>
                         <div class="story-overlay">
                             <h3 class="story-title">نصائح لاختيار الألوان</h3>
                             <p class="story-description">كيف تختار ألوان ديكور منزلك لتتناسب مع شخصيتك واحتياجاتك.</p>
@@ -821,8 +998,8 @@
                             <i class="fas fa-play"></i>
                         </div>
                     </div>
-                    <div class="instagram-story" data-media="https://assets.mixkit.co/videos/preview/mixkit-a-bright-and-modern-room-in-a-condominium-4361-large.mp4" data-type="video">
-                        <div class="story-image" style="background-image: url('https://images.unsplash.com/photo-1618220179428-22790b461013?q=80&w=800&auto=format&fit=crop')"></div>
+                    <div class="instagram-story" data-media="https://pouch.jumpshare.com/preview/qg2hPyOr5XwnM7CEZjIt9RQkO9NHXqlK8iXigszWd2VysiyRq3tP4AVHnnKo48dM2jFVEOWIyPfEZRG_eTqatIV_924BtYEitp4Q7OWNA0fMHWEN2nVKbP9FMpWVQKzfxukz_JvXdTb--3Ml-Hmfn26yjbN-I2pg_cnoHs_AmgI.mp4" data-type="video" data-content-type="story">
+                        <div class="story-image" style="background-image: url('https://pouch.jumpshare.com/preview/CR9EYz03hcYfEo0Ol3exT_OfGyBv4w5s9oaK-ejtaWbCsVgIk0zuKQQW1ecqKijptNyTE8KnedK_IYOdqRFPO7xBLgWkYKrMjFOdcVrWI4Y')"></div>
                         <div class="story-overlay">
                             <h3 class="story-title">أحدث صيحات الديكور</h3>
                             <p class="story-description">اكتشف أحدث اتجاهات الديكور لهذا الموسم.</p>
@@ -839,8 +1016,8 @@
                     <h2 class="page-title">ريلز انستجرام</h2>
                 </div>
                 <div class="instagram-container">
-                    <div class="instagram-reel" data-media="https://assets.mixkit.co/videos/preview/mixkit-interior-of-a-modern-living-room-44675-large.mp4" data-type="video">
-                        <div class="reel-image" style="background-image: url('https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80')"></div>
+                    <div class="instagram-reel" data-media="https://pouch.jumpshare.com/preview/EzpkeEuyrbh-xsxmXvcYXF51DMxOYGgEakWzMMCQQ6dILhX2DnL-GZpcqc0S7G9xXwAU6O4q-JK9RCuk5pABtJwRX7Wb_43HGKd4GETj1BCEqDHhzjGI08d_5ei7x8WDPqv6wE7Q6AYeW-uhp_bSJm6yjbN-I2pg_cnoHs_AmgI.mp4" data-type="video" data-content-type="reel">
+                        <div class="reel-image" style="background-image: url('https://pouch.jumpshare.com/preview/1Xv8JD6LydeR5z0-PvmicTtNmKlEfIdwF8qNX9nMLJiDJYBbhvUq70U5OaR8IrnlDMDhPrTVjHSw6n3A1NNpn4JK_dNXiYBrm84nRopdW_I')"></div>
                         <div class="reel-overlay">
                             <h3 class="reel-title">جولة في منزل عصري</h3>
                             <p class="reel-description">جولة مصورة في منزل عصري بتصميم مذهل يجمع بين الأناقة والراحة.</p>
@@ -849,8 +1026,8 @@
                             <i class="fas fa-play"></i>
                         </div>
                     </div>
-                    <div class="instagram-reel" data-media="https://assets.mixkit.co/videos/preview/mixkit-white-desk-with-a-modern-lamp-and-a-vase-44676-large.mp4" data-type="video">
-                        <div class="reel-image" style="background-image: url('https://images.unsplash.com/photo-1598928506311-c55ded91a20c?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80')"></div>
+                    <div class="instagram-reel" data-media="https://pouch.jumpshare.com/preview/6ShJw7U2SC5JLwpjTehK_jgdQ5FakyvDLJipP4NTDCjDPCLYS1-usScOdG7qduSDK2038vjUh_qrEDhutFRnNg83Svp0XvvRhmF7nJLZl6c" data-type="video" data-content-type="reel">
+                        <div class="reel-image" style="background-image: url('https://pouch.jumpshare.com/preview/he6p6CGNBBqQkgfQIbC7M-05uA4f9PcYjeqSHCfp-ZpI7qcpYThWAbnfxHihTm3rDMDhPrTVjHSw6n3A1NNpn1-pmtFpMpxlT8VUHI9Prag')"></div>
                         <div class="reel-overlay">
                             <h3 class="reel-title">نصائح ترتيب المنزل</h3>
                             <p class="reel-description">تعلم كيفية ترتيب منزلك بطرق مبتكرة تضفي جمالاً وترتيباً.</p>
@@ -859,8 +1036,8 @@
                             <i class="fas fa-play"></i>
                         </div>
                     </div>
-                    <div class="instagram-reel" data-media="https://assets.mixkit.co/videos/preview/mixkit-pillows-on-a-sofa-in-a-living-room-44677-large.mp4" data-type="video">
-                        <div class="reel-image" style="background-image: url('https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=800&q=80')"></div>
+                    <div class="instagram-reel" data-media="https://pouch.jumpshare.com/preview/sAm325k1mdLNA47D3hew6gBcWP1cJOpSHexgD3XOdQxoauRxNeY-VUIaP9VU6YbKgBBivCeTnQ0saMW3PmGomBv-oPpq1WB80OyINr9u-F8" data-type="video" data-content-type="reel">
+                        <div class="reel-image" style="background-image: url('https://pouch.jumpshare.com/preview/y2jnzIM03tjUMpQXLfy2mtlARAOfoKozHveuR2nK-mR1Jg5LFL_RUncQPjjjIoE4DMDhPrTVjHSw6n3A1NNpn73HdFty3xkJHklMIK1J3-o')"></div>
                         <div class="reel-overlay">
                             <h3 class="reel-title">تغيير ديكور بسيط</h3>
                             <p class="reel-description">كيف يمكنك تغيير ديكور منزلك بتغييرات بسيطة لكنها مؤثرة.</p>
@@ -897,10 +1074,31 @@
     </div>
 
     <div class="modal" id="modal">
-        <div class="modal-content">
+        <div class="modal-content" id="modalContent">
             <button class="modal-close" id="modalClose">×</button>
-            <img id="modalImage" class="modal-media" src="" alt="">
-            <video id="modalVideo" class="modal-media" controls style="display: none;"></video>
+            <div class="video-loading" id="videoLoading"></div>
+            <div class="modal-media-container">
+                <img id="modalImage" class="modal-media" src="" alt="">
+                <video id="modalVideo" class="modal-media" style="display: none;"></video>
+            </div>
+            <div class="video-controls" id="videoControls">
+                <button class="control-btn" id="playPauseBtn">
+                    <i class="fas fa-play"></i>
+                </button>
+                <div class="progress-container" id="progressContainer">
+                    <div class="progress-bar" id="progressBar"></div>
+                </div>
+                <div class="time-display" id="timeDisplay">00:00 / 00:00</div>
+                <div class="volume-container">
+                    <button class="control-btn" id="muteBtn">
+                        <i class="fas fa-volume-up"></i>
+                    </button>
+                    <input type="range" class="volume-slider" id="volumeSlider" min="0" max="1" step="0.1" value="1">
+                </div>
+                <button class="control-btn" id="fullscreenBtn">
+                    <i class="fas fa-expand"></i>
+                </button>
+            </div>
         </div>
     </div>
 
@@ -993,26 +1191,151 @@
 
         // Modal functionality
         const modal = document.getElementById('modal');
+        const modalContent = document.getElementById('modalContent');
         const modalImage = document.getElementById('modalImage');
         const modalVideo = document.getElementById('modalVideo');
         const modalClose = document.getElementById('modalClose');
+        const videoLoading = document.getElementById('videoLoading');
         const instagramItems = document.querySelectorAll('.instagram-post, .instagram-story, .instagram-reel');
         
+        // Video controls elements
+        const playPauseBtn = document.getElementById('playPauseBtn');
+        const progressBar = document.getElementById('progressBar');
+        const progressContainer = document.getElementById('progressContainer');
+        const timeDisplay = document.getElementById('timeDisplay');
+        const muteBtn = document.getElementById('muteBtn');
+        const volumeSlider = document.getElementById('volumeSlider');
+        const fullscreenBtn = document.getElementById('fullscreenBtn');
+        const videoControls = document.getElementById('videoControls');
+        
+        // Video control functions
+        function togglePlayPause() {
+            if (modalVideo.paused) {
+                modalVideo.play();
+                playPauseBtn.innerHTML = '<i class="fas fa-pause"></i>';
+            } else {
+                modalVideo.pause();
+                playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            }
+        }
+        
+        function updateProgress() {
+            const percent = (modalVideo.currentTime / modalVideo.duration) * 100;
+            progressBar.style.width = `${percent}%`;
+            
+            // Update time display
+            const currentMinutes = Math.floor(modalVideo.currentTime / 60);
+            const currentSeconds = Math.floor(modalVideo.currentTime % 60);
+            const durationMinutes = Math.floor(modalVideo.duration / 60);
+            const durationSeconds = Math.floor(modalVideo.duration % 60);
+            
+            timeDisplay.textContent = 
+                `${currentMinutes.toString().padStart(2, '0')}:${currentSeconds.toString().padStart(2, '0')} / ${durationMinutes.toString().padStart(2, '0')}:${durationSeconds.toString().padStart(2, '0')}`;
+        }
+        
+        function setProgress(e) {
+            const width = this.clientWidth;
+            const clickX = e.offsetX;
+            const duration = modalVideo.duration;
+            
+            modalVideo.currentTime = (clickX / width) * duration;
+        }
+        
+        function toggleMute() {
+            modalVideo.muted = !modalVideo.muted;
+            muteBtn.innerHTML = modalVideo.muted ? 
+                '<i class="fas fa-volume-mute"></i>' : 
+                '<i class="fas fa-volume-up"></i>';
+            volumeSlider.value = modalVideo.muted ? 0 : modalVideo.volume;
+        }
+        
+        function setVolume() {
+            modalVideo.volume = volumeSlider.value;
+            modalVideo.muted = (volumeSlider.value == 0);
+            muteBtn.innerHTML = (volumeSlider.value == 0) ? 
+                '<i class="fas fa-volume-mute"></i>' : 
+                '<i class="fas fa-volume-up"></i>';
+        }
+        
+        function toggleFullscreen() {
+            if (!document.fullscreenElement) {
+                modal.requestFullscreen().catch(err => {
+                    console.log(`Error attempting to enable fullscreen: ${err.message}`);
+                });
+                fullscreenBtn.innerHTML = '<i class="fas fa-compress"></i>';
+            } else {
+                document.exitFullscreen();
+                fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+            }
+        }
+        
+        // Event listeners for video controls
+        playPauseBtn.addEventListener('click', togglePlayPause);
+        modalVideo.addEventListener('click', togglePlayPause);
+        modalVideo.addEventListener('timeupdate', updateProgress);
+        modalVideo.addEventListener('ended', () => {
+            playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+            progressBar.style.width = '0%';
+        });
+        progressContainer.addEventListener('click', setProgress);
+        muteBtn.addEventListener('click', toggleMute);
+        volumeSlider.addEventListener('input', setVolume);
+        fullscreenBtn.addEventListener('click', toggleFullscreen);
+        
+        // Modal open functionality
         instagramItems.forEach(item => {
             item.addEventListener('click', () => {
                 const mediaSrc = item.getAttribute('data-media');
                 const mediaType = item.getAttribute('data-type');
+                const contentType = item.getAttribute('data-content-type');
+                
+                // إزالة جميع الفئات السابقة
+                modalContent.classList.remove('video-story', 'video-reel', 'video-post');
                 
                 if (mediaType === 'image') {
                     modalImage.src = mediaSrc;
                     modalImage.style.display = 'block';
                     modalVideo.style.display = 'none';
                     modalVideo.src = ''; // Stop video from playing in background
+                    videoControls.style.display = 'none';
                 } else if (mediaType === 'video') {
+                    videoLoading.style.display = 'block';
                     modalVideo.src = mediaSrc;
                     modalVideo.style.display = 'block';
                     modalImage.style.display = 'none';
                     modalImage.src = '';
+                    videoControls.style.display = 'flex';
+                    
+                    // تحديد مقاس العرض بناءً على نوع المحتوى
+                    if (contentType === 'story') {
+                        modalContent.classList.add('video-story');
+                    } else if (contentType === 'reel') {
+                        modalContent.classList.add('video-reel');
+                    } else {
+                        modalContent.classList.add('video-post');
+                    }
+                    
+                    // Reset video controls
+                    playPauseBtn.innerHTML = '<i class="fas fa-play"></i>';
+                    progressBar.style.width = '0%';
+                    timeDisplay.textContent = '00:00 / 00:00';
+                    
+                    // Wait for video metadata to load
+                    modalVideo.addEventListener('loadedmetadata', () => {
+                        videoLoading.style.display = 'none';
+                        const durationMinutes = Math.floor(modalVideo.duration / 60);
+                        const durationSeconds = Math.floor(modalVideo.duration % 60);
+                        timeDisplay.textContent = 
+                            `00:00 / ${durationMinutes.toString().padStart(2, '0')}:${durationSeconds.toString().padStart(2, '0')}`;
+                    });
+                    
+                    modalVideo.addEventListener('waiting', () => {
+                        videoLoading.style.display = 'block';
+                    });
+                    
+                    modalVideo.addEventListener('canplay', () => {
+                        videoLoading.style.display = 'none';
+                    });
                 }
                 
                 modal.classList.add('active');
@@ -1024,6 +1347,7 @@
             modalVideo.pause();
             modalVideo.src = '';
             modalImage.src = '';
+            videoLoading.style.display = 'none';
         }
 
         modalClose.addEventListener('click', closeModal);
@@ -1031,6 +1355,43 @@
         modal.addEventListener('click', (e) => {
             if (e.target === modal) {
                 closeModal();
+            }
+        });
+        
+        // Keyboard controls
+        document.addEventListener('keydown', (e) => {
+            if (!modal.classList.contains('active')) return;
+            
+            switch(e.key) {
+                case ' ':
+                case 'k':
+                    e.preventDefault();
+                    togglePlayPause();
+                    break;
+                case 'm':
+                    e.preventDefault();
+                    toggleMute();
+                    break;
+                case 'f':
+                    e.preventDefault();
+                    toggleFullscreen();
+                    break;
+                case 'Escape':
+                    if (document.fullscreenElement) {
+                        document.exitFullscreen();
+                        fullscreenBtn.innerHTML = '<i class="fas fa-expand"></i>';
+                    } else {
+                        closeModal();
+                    }
+                    break;
+                case 'ArrowLeft':
+                    e.preventDefault();
+                    modalVideo.currentTime -= 5;
+                    break;
+                case 'ArrowRight':
+                    e.preventDefault();
+                    modalVideo.currentTime += 5;
+                    break;
             }
         });
     </script>
